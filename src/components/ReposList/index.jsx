@@ -4,15 +4,15 @@ import styles from './ReposList.module.css'
 
 const ReposList = ({nomeUsuario}) => {
     const [repos, setRepos] = useState([]);
-    const [estaCarregando, serEstaCarregando] = useState(true);
+    const [estaCarregando, setEstaCarregando] = useState(true);
 
     useEffect(() => {
-        serEstaCarregando(true);
+        setEstaCarregando(true);
         fetch(`https://api.github.com/users/${nomeUsuario}/repos`)
         .then(res => res.json())
         .then(resJson => {
             setTimeout(() => {
-                serEstaCarregando(false);
+                setEstaCarregando(false);
                 setRepos(resJson);
 
             }, 3000);
@@ -28,9 +28,9 @@ const ReposList = ({nomeUsuario}) => {
 
                 <ul className={styles.list}>
                     {/* {repos.map(repositorio => { */}
-                        {repos.map(({id, name, language, html_url}) => {
+                        {repos.map(({id, name, language, html_url}) => (
                         <li className={styles.listItem} key={id}>
-                            <div className={styles.listName}>
+                            <div className={styles.itemName}>
                                 <b>Nome:</b> {name}
 
                             </div>
@@ -43,7 +43,7 @@ const ReposList = ({nomeUsuario}) => {
 
                             <a className={styles.itemLink} target="_blank" href={html_url}>Visitar no Github</a>
                         </li>
-                    })}
+                    ))}
                 
                 </ul>
             )}
